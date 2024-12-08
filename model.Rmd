@@ -1,0 +1,201 @@
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(readr)
+library(tidyr)
+library(tm)           
+library(SnowballC)   
+library(tidytext)     
+library(cluster)      
+library(factoextra)
+library(FactoMineR)
+```
+
+
+```{r}
+data <- read.csv("data.csv", encoding = "latin1")
+```
+
+```{r}
+data$text <- paste(data$name, data$description)
+```
+
+```{r}
+corpus <- Corpus(VectorSource(data$text))
+```
+
+```{r}
+corpus_clean <- corpus %>%
+  tm_map(content_transformer(tolower)) %>%
+  tm_map(removePunctuation) %>%
+  tm_map(removeNumbers) %>%
+  tm_map(removeWords, stopwords("en")) %>%
+  tm_map(stripWhitespace) %>%
+  tm_map(content_transformer(function(x) {          
+    gsub("[^a-zA-Z\\s]", "", x)                     
+  })) %>%
+  tm_map(stemDocument)
+```
+
+```{r}
+dtm <- DocumentTermMatrix(corpus_clean)
+```
+
+```{r}
+tfidf <- weightTfIdf(dtm)
+tfidf_matrix <- as.matrix(tfidf)
+```
+
+
+```{r}
+set.seed(42)
+kmeans_result <- kmeans(tfidf_matrix, centers = 5)
+```
+
+```{r}
+data$cluster <- as.factor(kmeans_result$cluster)
+```
+
+
+```{r}
+cluster_id_1 <- "1"
+cluster_data_1 <- data %>% filter(cluster == cluster_id_1)
+```
+
+```{r}
+cluster_text_1 <- paste(cluster_data_1$name, cluster_data_1$description)
+```
+
+```{r}
+cluster_corpus_1 <- Corpus(VectorSource(cluster_text_1))
+
+custom_stopwords <- c(stopwords("en"), "talk", "like", "look", "can", "use", "need", "part", "take", "one", "come")
+
+cluster_corpus_clean_1 <- cluster_corpus_1 %>%
+  tm_map(content_transformer(tolower)) %>%
+  tm_map(removePunctuation) %>%
+  tm_map(removeNumbers) %>%
+  tm_map(removeWords, custom_stopwords) %>%
+  tm_map(stripWhitespace) %>%
+  tm_map(stemDocument)
+```
+
+```{r}
+cluster_dtm_1 <- DocumentTermMatrix(cluster_corpus_clean_1)
+
+term_matrix_1 <- as.matrix(cluster_dtm_1)
+term_frequency_1 <- colSums(term_matrix_1)
+```
+
+```{r}
+term_frequency_df_1 <- data.frame(
+  term = names(term_frequency_1),
+  freq = term_frequency_1
+)
+```
+
+```{r}
+top_terms_1 <- term_frequency_df_1 %>%
+  arrange(desc(freq)) %>%
+  head(20)
+
+ggplot(top_terms_1, aes(x = reorder(term, freq), y = freq)) +
+  geom_bar(stat = "identity", fill = "blue") +
+  coord_flip() +
+  labs(
+    title = paste("Top 20 Terms in Cluster", cluster_id_1),
+    x = "Term",
+    y = "Frequency"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+cluster_tfidf_1 <- weightTfIdf(cluster_dtm_1)
+cluster_tfidf_matrix_1 <- as.matrix(cluster_tfidf_1)
+tfidf_sums_1 <- colSums(cluster_tfidf_matrix_1)
+
+```
+
+```{r}
+tfidf_df_1 <- data.frame(
+  term = names(tfidf_sums_1),
+  tfidf_1 = tfidf_sums_1
+)
+```
+
+```{r}
+top_tfidf_terms_1 <- tfidf_df_1 %>%
+  arrange(desc(tfidf_1)) %>%
+  head(10)
+
+print(top_tfidf_terms_1)
+```
+```{r}
+#  metrics 1 should be Technology shareability
+```
+
+```{r}
+cluster_id_2 <- "5"
+cluster_data_2 <- data %>% filter(cluster == cluster_id_2)
+cluster_text_2 <- paste(cluster_data_2$name, cluster_data_2$description)
+
+cluster_corpus_2 <- Corpus(VectorSource(cluster_text_2))
+
+custom_stopwords <- c(stopwords("en"), "can")
+
+cluster_corpus_clean_2 <- cluster_corpus_2 %>%
+  tm_map(content_transformer(tolower)) %>%
+  tm_map(removePunctuation) %>%
+  tm_map(removeNumbers) %>%
+  tm_map(removeWords, custom_stopwords) %>%
+  tm_map(stripWhitespace) %>%
+  tm_map(stemDocument)
+
+cluster_dtm_2 <- DocumentTermMatrix(cluster_corpus_clean_2)
+
+term_matrix_2 <- as.matrix(cluster_dtm_2)
+term_frequency_2 <- colSums(term_matrix_2)
+
+term_frequency_df_2 <- data.frame(
+  term = names(term_frequency_2),
+  freq = term_frequency_2
+)
+```
+
+```{r}
+top_terms_2 <- term_frequency_df_2 %>%
+  arrange(desc(freq)) %>%
+  head(20)
+
+ggplot(top_terms_2, aes(x = reorder(term, freq), y = freq)) +
+  geom_bar(stat = "identity", fill = "blue") +
+  coord_flip() +
+  labs(
+    title = paste("Top 20 Terms in Cluster", cluster_id_2),
+    x = "Term",
+    y = "Frequency"
+  ) +
+  theme_minimal()
+```
+```{r}
+cluster_tfidf_2 <- weightTfIdf(cluster_dtm_2)
+cluster_tfidf_matrix_2 <- as.matrix(cluster_tfidf_2)
+tfidf_sums_2 <- colSums(cluster_tfidf_matrix_2)
+
+tfidf_df_2 <- data.frame(
+  term = names(tfidf_sums_2),
+  tfidf_2 = tfidf_sums_2
+)
+
+top_tfidf_terms_2 <- tfidf_df_2 %>%
+  arrange(desc(tfidf_2)) %>%
+  head(10)
+
+print(top_tfidf_terms_2)
+```
+```{r}
+# metrics 2 should be Scientific innovativeness
+```
+
