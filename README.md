@@ -1,4 +1,4 @@
-# Spotify Podcast New Metric Project
+# Spotify Podcast New Metric Project - Group 12(Zhengyong Chen, Leyan Sun)
 
 This project uses Spotify podcast data to create new metrics by analyzing episode titles and descriptions, providing personalized recommendations to users.
 
