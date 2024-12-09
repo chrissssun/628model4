@@ -1,13 +1,47 @@
 # Spotify Podcast New Metric Project
 
-## Repository Overview
+# Spotify Podcast Analysis Project
 
-This repository contains all the necessary data, code, and resources for Spotify Podcast New Metric Project. The project includes data cleaning, analysis scripts, image outputs, and relevant documentation.
+This project uses Spotify podcast data to create new metrics by analyzing episode titles and descriptions, providing personalized recommendations to users.
 
-### Directory Structure
+## Project Structure
 
--   **data/**: This folder contains the datasets used in the analysis. 
+### `/code`
+Contains all R scripts used in the analysis and application setup.
+- `app.R`: Shiny application for interactive data exploration.
+- `clean.R`: Script for data cleaning and preparation.
+- `clustering_plot.R`: Script for generating clustering plots.
+- `get Podcast ID.R`: Script to fetch podcast IDs from Spotify.
+- `test model(full model in shiny app).R`: Script containing the model used in the Shiny app for testing purposes.
+- `data -podcast information.R`: Script to extract detailed podcast information.
 
--   **code/**: This folder includes all the code necessary for data cleaning, analysis, and generating visual outputs (such as tables and figures). It also contains the Shiny app code.
+### `/data`
+Stores all datasets used and generated during the project.
+- `full data.csv`: Complete dataset from Spotify.
+- `test data.csv`: Dataset used for testing and validation purposes.
 
--   **summary.pdf**: A one-page PDF summarizing the findings and key results from the analysis.
+### `/image`
+Contains all images generated from the analysis.
+
+### Documentation
+- `Summary - Spotify Podcast New Metric Project.docx`: Summary
+- `Summary - Spotify Podcast New Metric Project.pdf`: Summary
+
+### Shiny
+All files about shiny app
+
+## Web-Based App
+
+
+## Usage
+
+To run the Shiny application:
+1. Navigate to the `/code` directory.
+2. Open `app.R` in RStudio.
+3. Click 'Run App' to start the application.
+
+Scripts can be run individually to perform specific tasks, such as data cleaning, fetching data, or testing the model as described in the files within the `/shiny` folder.
+
+## Requirements
+
+Make sure to install all required R packages before running the scripts or the Shiny application. You can install packages using the command `install.packages("package_name")`.
