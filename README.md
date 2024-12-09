@@ -21,11 +21,11 @@ Stores all datasets used and generated during the project.
 ### `/image`
 Contains all images generated from the analysis.
 
-### Documentation
+### `/Documentation`
 - `Summary - Spotify Podcast New Metric Project.docx`: Summary
 - `Summary - Spotify Podcast New Metric Project.pdf`: Summary
 
-### Shiny
+### `/Shiny`
 All files about shiny app
 
 ## Web-Based App
