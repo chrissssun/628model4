@@ -1,7 +1,5 @@
 # Spotify Podcast New Metric Project
 
-# Spotify Podcast Analysis Project
-
 This project uses Spotify podcast data to create new metrics by analyzing episode titles and descriptions, providing personalized recommendations to users.
 
 ## Project Structure
