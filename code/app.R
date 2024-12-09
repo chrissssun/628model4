@@ -178,7 +178,7 @@ ui <- fluidPage(
         column(12,
                div(class = "contact-info",
                    HTML("<p>Contact Information:
-                   <br>Contact app maintainer: <a href='mailto:zchen2353@wisc'>zchen2353@wisc</a>
+                   <br>Contact app maintainer: <a href='mailto:zchen2353@wisc.edu'>zchen2353@wisc.edu</a>
                    <br>Contributor: Zhengyong Chen, Leyan Sun</p>")
                )
         )
